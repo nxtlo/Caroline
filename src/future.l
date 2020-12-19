@@ -11,15 +11,14 @@ whitespace      [ \t\r\v\f]
 linefeed        \n
 
 %%
-"get"  |
 "int"   |
-"then"  |
-"panic" |
-"if"  |
-"til" |
-"int*"          |
-"char*"         |
-"in"  |  
+"float" |
+"str"   |
+"unsigned int"  |
+"unsigned str"  |
+"int*"  |
+"str*"  |
+"float*"                                        {yylval.dataType = strdup(yytext);return DATA_TYPE;}
 
 "!="                                            {return NOT_EQ}
 "=="                                            {return EQ_TO;}
@@ -34,9 +33,9 @@ linefeed        \n
 "["                                             {return BIG_BRACKET_OPEN;}
 "]"                                             {return BIG_BRACKET_CLOSE;}
 
-[\'][a-zA-Z][\']                                {yylval.charVal = yytext[1];    return CHARACTER_VALUE;}
-[-+]?[0-9]+                                     {yylval.intVal = atoi(yytext);  return INTEGER_VALUE;}
-[-+]?[0-9]*\.?[0-9]+                            {yylval.floatVal = atof(yytext); return FLOAT_VALUE;}
+[\'][a-zA-Z][\']                                {yylval.charVal = yytext[1];    return CHAR_VALUE;}
+[-+]?[0-9]+                                     {yylval.intVal = atoi(yytext);  return INT_VALUE;}
+[-+]?[0-9]*\.?[0-9]+                            {yylval.floatVal = atof(yytext); return FLO_VALUE;}
 
 [a-zA-Z][_a-zA-Z0-9]*(\[[0-9]+\])+              {yylval.strVal = strdup(yytext); return ARRAY_IDENTIFIER;}
 [a-zA-Z][_a-zA-Z0-9]*                           {yylval.dataType = strdup(yytext); return IDENTIFIER;}
@@ -47,7 +46,7 @@ linefeed        \n
 
 {linefeed}                                      {yylineno++;}
 {whitespace}                                    ;
-.                                               {InvalidToken();}
+.                                               {Invalid();}
 
 
 %%
@@ -61,7 +60,7 @@ void yyerror(char *s) {
     exit(0);
 }
 
-void InvalidToken(){
+void Invalid(){
     printf("ERROR ON LINE %d : \n Invalid Token %s\n", yylineno,yytext);
     exit(0);
 }
