@@ -1,0 +1,9 @@
+
+// this is an example of how i want functions run in Caroline
+
+func foo(int bar, int baz) {
+    // return bar + bas
+    get bar + baz
+}
+// call the function
+foo(3, 8)
